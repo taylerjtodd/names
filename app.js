@@ -16,23 +16,26 @@ var APPLICATION = (function () {
         let navTemplate = $('#navTemplate').html();
         $('#nav').html(Mustache.render(navTemplate, {}));
 
-        let hash = window.location.hash;
-        if (!hash) {
-            hash = "#";
-        }
-
-        if (hash === '#setup') {
+        if (window.location.hash === '#setup') {
             renderSetup();
-        } else if (hash === '#') {
-            renderStatus();
         } else {
-            renderSetup();
+            renderStatus();
         }
     }
 
     function renderSetup() {
         let bodyTemplate = $('#setupTemplate').html()
-        $('#body').html(Mustache.render(bodyTemplate, {}));
+        const renderData = {};
+        let config = MODEL.config();
+        if(config) {
+            renderData.boys = config.startingList === 'boys';
+            renderData.girls = config.startingList === 'girls';
+            renderData.test = config.startingList === 'test';
+            renderData.customNames = config.customNames;
+            renderData.podiumSize = config.podiumSize;
+        }
+
+        $('#body').html(Mustache.render(bodyTemplate, renderData));
     }
 
     function renderStatus() {
@@ -66,7 +69,8 @@ var APPLICATION = (function () {
     function saveConfig() {
         let startingList = $('#startingList').val();
         let podiumSize = $('#podiumSize').val();
-        MODEL.saveConfig({ startingList: startingList, podiumSize: podiumSize });
+        let customNames = $('#customNames').val();
+        MODEL.saveConfig({ startingList: startingList, podiumSize: podiumSize, customNames: customNames });
         render();
     }
 

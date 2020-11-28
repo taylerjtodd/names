@@ -41,12 +41,16 @@
                 <select class="form-control" id="startingList">
                     <option value="boys" {{#boys}}selected="selected"{{/boys}}>Boys Names</option>
                     <option value="girls" {{#girls}}selected="selected"{{/girls}}>Girls Names</option>
-                    <option value="test" {{#girls}}selected="selected"{{/girls}}>Test Names</option>
+                    <option value="test" {{#test}}selected="selected"{{/test}}>Test Names</option>
                 </select>
             </div>
             <div class="form-group">
                 <label class="form-group-label" for="podiumSize">Podium Size</label>
                 <input class="form-control" type="number" min="3" max="10" value="{{podiumSize}}" id="podiumSize">
+            </div>
+            <div class="form-group">
+                <label class="form-group-label" for="customNames">Custom Names (One name per line)</label>
+                <textarea class="form-control" id="customNames">{{customNames}}</textarea>
             </div>
             <button type="button" class="btn btn-primary" onclick="APPLICATION.saveConfig()">Save Config</button>
         </form>

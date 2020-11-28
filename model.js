@@ -1047,15 +1047,25 @@ var MODEL = (function () {
 
         let names;
         if (config.startingList === 'test') {
-            names = shuffle(testNames);
+            names = testNames;
         } else if (config.startingList === 'boys') {
-            names = shuffle(boyNames);
+            names = boyNames;
         } else {
-            names = shuffle(girlNames);
+            names = girlNames;
         }
         names.forEach(name => {
             rounds[0].push(name);
         });
+
+        let customNames = config.customNames.match(/[^\r\n]+/g);
+        if(customNames.length) {
+            
+            customNames.forEach(name => {
+                rounds[0].push(name);
+            });
+        }
+
+        rounds[0] = shuffle(rounds[0]);
 
         roundIndex = 0;
 

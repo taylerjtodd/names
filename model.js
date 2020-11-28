@@ -1,5 +1,25 @@
 var MODEL = (function () {
 
+    let testNames = [
+        'Liam',
+        'Noah',
+        'Oliver',
+        'William',
+        'Elijah',
+        'James',
+        'Benjamin',
+        'Lucas',
+        'Mason',
+        'Ethan',
+        'Alexander',
+        'Henry',
+        'Jacob',
+        'Michael',
+        'Daniel',
+        'Logan',
+        'Jackson',
+        'Sebastian',];
+
     let boyNames = [
         'Liam',
         'Noah',
@@ -1026,7 +1046,9 @@ var MODEL = (function () {
         choices = twoD(config.podiumSize);
 
         let names;
-        if (config.startingList === 'boys') {
+        if (config.startingList === 'test') {
+            names = shuffle(testNames);
+        } else if (config.startingList === 'boys') {
             names = shuffle(boyNames);
         } else {
             names = shuffle(girlNames);
@@ -1127,6 +1149,9 @@ var MODEL = (function () {
         rounds: () => { return rounds; },
         choices: () => { return choices; },
         nextChoice: () => { return nextChoice; },
+        roundIndex: () => { return roundIndex; },
+        currentRound: () => { return currentRound; },
+        config: () => { return config; },
         saveConfig: saveConfig,
         reset: reset,
         choose: choose,

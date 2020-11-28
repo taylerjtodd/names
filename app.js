@@ -18,15 +18,13 @@ var APPLICATION = (function () {
 
         let hash = window.location.hash;
         if (!hash) {
-            hash = "#choose";
+            hash = "#";
         }
 
         if (hash === '#setup') {
             renderSetup();
-        } else if (hash === '#status') {
+        } else if (hash === '#') {
             renderStatus();
-        } else if (hash === '#choose') {
-            renderChoice();
         } else {
             renderSetup();
         }
@@ -41,27 +39,27 @@ var APPLICATION = (function () {
         let rounds = MODEL.rounds();
         let choices = MODEL.choices();
         if (rounds.length) {
-            let renderData = { rounds: [], choices:[] };
-            rounds.forEach((round, i) => {
-                renderData.rounds.push({ names: round, idx: i + 1 })
-            });
-            choices.forEach((round, i) => {
-                renderData.choices.push({ names: round, idx: i + 1 })
-            });
+
+            let nextChoice = MODEL.nextChoice();
+
+            let renderData = { rounds: [], choices:[], nextChoice: nextChoice };
+            for (let i = 0; i < MODEL.config().podiumSize; i++) {
+                let renderRound = {idx: i + 1};
+                if(i < MODEL.roundIndex()) {
+                    renderRound.names = rounds[i];
+                } else {
+                    renderRound.names = choices[i];
+                }
+
+                if(i === MODEL.roundIndex()) {
+                    renderRound.choices = MODEL.currentRound();
+                }
+                renderData.rounds.push(renderRound);
+            }
             let bodyTemplate = $('#statusTemplate').html()
             $('#body').html(Mustache.render(bodyTemplate, renderData));
         } else {
             renderSetup();
-        }
-    }
-
-    function renderChoice() {
-        let nextChoice = MODEL.nextChoice();
-        if (!nextChoice) {
-            renderStatus();
-        } else {
-            let bodyTemplate = $('#choiceTemplate').html()
-            $('#body').html(Mustache.render(bodyTemplate, nextChoice));
         }
     }
 

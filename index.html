@@ -28,16 +28,9 @@
 
     <script id="navTemplate" type="x-tmpl-mustache">
         <ul class="nav">
-            <li class="nav-item"><a class="nav-link" href="#choose">Next Choice</a></li>
-            <li class="nav-item"><a class="nav-link" href="#status">Status</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
             <li class="nav-item"><a class="nav-link" href="#setup">Setup</a></li>
         </ul>
-    </script>
-
-    <script id="choiceTemplate" type="x-tmpl-mustache">
-        <button type="button" class="btn btn-default" onclick="APPLICATION.choose('{{first}}')">{{first}}</button>
-        <button type="button" class="btn btn-default" onclick="APPLICATION.choose('{{second}}')">{{second}}</button>
-        <button type="button" class="btn btn-danger" onclick="APPLICATION.choose()">Throw out both</button>
     </script>
 
     <script id="setupTemplate" type="x-tmpl-mustache">
@@ -48,6 +41,7 @@
                 <select class="form-control" id="startingList">
                     <option value="boys" {{#boys}}selected="selected"{{/boys}}>Boys Names</option>
                     <option value="girls" {{#girls}}selected="selected"{{/girls}}>Girls Names</option>
+                    <option value="test" {{#girls}}selected="selected"{{/girls}}>Test Names</option>
                 </select>
             </div>
             <div class="form-group">
@@ -63,8 +57,13 @@
     </script>
 
     <script id="statusTemplate" type="x-tmpl-mustache">
+        {{#nextChoice}}
+        <h1>Next Choice</h1>
+        <button type="button" class="btn btn-default" onclick="APPLICATION.choose('{{first}}')">{{first}}</button>
+        <button type="button" class="btn btn-default" onclick="APPLICATION.choose('{{second}}')">{{second}}</button>
+        <button type="button" class="btn btn-danger" onclick="APPLICATION.choose()">Throw out both</button>
+        {{/nextChoice}}
         <h1>Status</h1>
-        <h2>Current Round</h2>
         <table class="table">
             <thead>
                 <tr>
@@ -73,20 +72,16 @@
             </thead>
             <tbody>
                 <tr>
-                    {{#rounds}}<td>{{#names}}{{.}}<br>{{/names}}</td>{{/rounds}}
-                </tr>
-            </tbody>
-        </table>
-        <h2>Next Round</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    {{#choices}}<th>Tier {{idx}}</th>{{/choices}}
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    {{#choices}}<td>{{#names}}{{.}}<br>{{/names}}</td>{{/choices}}
+                    {{#rounds}}
+                        <td>
+                            {{#names}}
+                                {{.}}<br>
+                            {{/names}}
+                            {{#choices}}
+                                {{first}} vs {{second}}<br>
+                            {{/choices}}
+                        </td>
+                    {{/rounds}}
                 </tr>
             </tbody>
         </table>
